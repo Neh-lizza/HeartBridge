@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeartBridge Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      display: flex;
+      width: 900px;
+      height: 500px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* Left Form */
+    .login-form {
+      flex: 1;
+      padding: 50px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-form h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      color: #333;
+    }
+
+    .input-field {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .login-form a {
+      font-size: 14px;
+      color: #1a75ff;
+      text-decoration: none;
+    }
+
+    .login-form a:hover {
+      text-decoration: underline;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #ff6600;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #e65c00;
+    }
+
+    .signup {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .signup a {
+      color: #1a75ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Right Image */
+    .login-image {
+      flex: 1;
+      background: url("children.jpg") no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .login-image::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .login-image span {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <!-- Left Form -->
+    <div class="login-form">
+      <h2>Login</h2>
+      <div class="input-field">
+        <input type="email" placeholder="Enter your email">
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Enter your password">
+      </div>
+      <a href="#">Forgot password?</a>
+      <button class="btn">Login</button>
+      <div class="signup">
+        Don’t have an account? <a href="#">Signup now</a>
+      </div>
+    </div>
+
+    <!-- Right Image -->
+    <div class="login-image">
+      <span>Bringing people together 💛<br> Support. Volunteer. Connect.</span>
+    </div>
+  </div>
+
+</body>
+</html>

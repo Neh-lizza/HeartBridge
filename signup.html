@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeartBridge Sign Up</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .signup-container {
+      display: flex;
+      width: 950px;
+      height: 600px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* Left Form */
+    .signup-form {
+      flex: 1;
+      padding: 50px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .signup-form h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      color: #333;
+    }
+
+    .input-field {
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #ff6600;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #e65c00;
+    }
+
+    .signin {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .signin a {
+      color: #1a75ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Right Image */
+    .signup-image {
+      flex: 1;
+      background: url("children.jpg") no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .signup-image::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .signup-image span {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signup-container">
+    <!-- Left Form -->
+    <div class="signup-form">
+      <h2>Create an Account</h2>
+      <div class="input-field">
+        <input type="text" placeholder="Full Name">
+      </div>
+      <div class="input-field">
+        <input type="email" placeholder="Email Address">
+      </div>
+      <div class="input-field">
+        <input type="tel" placeholder="Phone Number">
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Password">
+      </div>
+      <div class="input-field">
+        <input type="password" placeholder="Confirm Password">
+      </div>
+      <button class="btn">Sign Up</button>
+      <div class="signin">
+        Already have an account? <a href="login.html">Login here</a>
+      </div>
+    </div>
+
+    <!-- Right Image -->
+    <div class="signup-image">
+      <span>Join HeartBridge 💛 <br> Together we make a difference</span>
+    </div>
+  </div>
+
+</body>
+</html>
