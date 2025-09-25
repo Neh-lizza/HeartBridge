@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeartBridge – Connecting Hearts, Changing Lives</title>
+  <style>
+    :root {
+      --primary: #1a75ff;
+      --accent: #ff7b00;
+      --dark: #0f1720;
+      --light: #fafafa;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", Arial, sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
+
+    /* Navbar */
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 6%; background: var(--white); position: sticky; top: 0; z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    header .logo { font-weight: 800; font-size: 1.2rem; color: var(--primary); }
+    header nav { display: flex; gap: 1.2rem; }
+    header nav a { text-decoration: none; color: var(--dark); font-weight: 600; }
+    .btn-heart { background: var(--accent); color: white; padding: .6rem 1rem; border-radius: 999px; font-weight: 700; }
+
+    /* Hero */
+    .hero {
+      background: url("https://picsum.photos/1200/700?grayscale") center/cover no-repeat;
+      min-height: 75vh; display: flex; align-items: center; padding: 3rem 6%; position: relative; color: var(--white);
+    }
+    .hero::before {
+      content:""; position: absolute; inset:0; background: rgba(0,0,0,0.45); z-index:0;
+    }
+    .hero-content { position: relative; z-index:1; max-width: 640px; }
+    .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
+    .hero p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+    .hero .cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { padding: .9rem 1.4rem; border-radius: 999px; font-weight: 700; text-decoration: none; display: inline-block; }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-secondary { border: 2px solid var(--white); color: var(--white); }
+
+    /* Sections */
+    section { padding: 4rem 6%; text-align: center; }
+    section h2 { font-size: 2rem; margin-bottom: 2rem; }
+    .services, .orphanages, .steps, .testimonials, .partners { display: grid; gap: 2rem; }
+
+    /* Services */
+    .services { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .service-card { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .service-card h3 { margin-top: 1rem; color: var(--primary); }
+
+    /* Orphanages */
+    .orphanages { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-content { padding: 1rem; text-align: left; }
+
+    /* Steps */
+    .steps { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .step { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+
+    /* Testimonials */
+    .testimonial { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .testimonial p { font-style: italic; }
+
+    /* Partners */
+    .partners { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); align-items: center; }
+    .partners img { max-height: 50px; margin: auto; }
+
+    /* Newsletter */
+    .newsletter { background: var(--primary); color: white; padding: 3rem 6%; text-align: center; }
+    .newsletter input { padding: .8rem 1rem; border-radius: 999px; border: none; width: 240px; }
+    .newsletter button { padding: .8rem 1.2rem; border: none; border-radius: 999px; background: var(--accent); color: white; margin-left: .5rem; font-weight: 700; }
+
+    /* Footer */
+    footer { background: var(--dark); color: white; padding: 2rem 6%; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; }
+    footer a { color: var(--white); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <div class="logo">❤️ HeartBridge</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Orphanages</a>
+      <a href="#">Donate</a>
+      <a href="#">Volunteer</a>
+      <a href="#">About</a>
+      <a href="#" class="btn-heart">Get Involved</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Give Hope, Share Love, Build a Brighter Future</h1>
+      <p>HeartBridge connects kind hearts with orphanages in need. Donate money, clothes, time, or skills — and make an impact today.</p>
+      <div class="cta">
+        <a href="#donate" class="btn btn-primary">Donate Now</a>
+        <a href="#volunteer" class="btn btn-secondary">Join as Volunteer</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section>
+    <h2>Our Services</h2>
+    <div class="services">
+      <div class="service-card"><h3>💸 Money Donations</h3><p>Support orphanages financially through secure online payments.</p></div>
+      <div class="service-card"><h3>👕 Clothes & Supplies</h3><p>Give clothes, books, and other essentials.</p></div>
+      <div class="service-card"><h3>🧹 Volunteer Work</h3><p>Join clean-up drives and community service.</p></div>
+      <div class="service-card"><h3>📚 Tutoring & Mentorship</h3><p>Help children learn and grow with your skills.</p></div>
+    </div>
+  </section>
+
+  <!-- Orphanages -->
+  <section>
+    <h2>Featured Orphanages</h2>
+    <div class="orphanages">
+      <div class="card">
+        <img src="https://picsum.photos/400/250?1" alt="">
+        <div class="card-content"><h3>Bright Future Orphanage</h3><p>Douala, Cameroon • Needs: School supplies</p></div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/400/250?2" alt="">
+        <div class="card-content"><h3>Safe Haven Orphanage</h3><p>Buea, Cameroon • Needs: Food donations</p></div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/400/250?3" alt="">
+        <div class="card-content"><h3>Hope Children’s Home</h3><p>Yaoundé • Needs: Volunteers</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step"><h3>1. Choose a Cause</h3><p>Pick an orphanage or project.</p></div>
+      <div class="step"><h3>2. Make a Contribution</h3><p>Donate money, clothes, or volunteer.</p></div>
+      <div class="step"><h3>3. See the Impact</h3><p>Track your impact through your dashboard.</p></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section>
+    <h2>What People Say</h2>
+    <div class="testimonials">
+      <div class="testimonial"><p>“HeartBridge made it so easy to give back. I volunteered to teach, and it changed my life as much as the kids’.”</p><strong>– Sarah M.</strong></div>
+      <div class="testimonial"><p>“Donating through HeartBridge was seamless, and I know my support went directly to the children.”</p><strong>– John K.</strong></div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section>
+    <h2>Our Partners</h2>
+    <div class="partners">
+      <img src="https://via.placeholder.com/120x50?text=UNICEF" alt="">
+      <img src="https://via.placeholder.com/120x50?text=UNESCO" alt="">
+      <img src="https://via.placeholder.com/120x50?text=NGO1" alt="">
+      <img src="https://via.placeholder.com/120x50?text=NGO2" alt="">
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <div class="newsletter">
+    <h2>Stay Updated</h2>
+    <p>Subscribe to get updates on new orphanages, donation drives, and volunteering opportunities.</p>
+    <form>
+      <input type="email" placeholder="Enter your email">
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <h3>HeartBridge</h3>
+      <p>Connecting hearts, changing lives.</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>Buea, SouthWest Cameroon</p>
+      <p>+2371234567</p>
+      <p>heartb@gmail.com</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="#">About</a></p>
+      <p><a href="#">Donate</a></p>
+      <p><a href="#">Volunteer</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

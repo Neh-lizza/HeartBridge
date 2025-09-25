@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeartBridge</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #f8f8f8;
+      flex-wrap: wrap;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .btn-support {
+      background: #ff7b00;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: url('https://via.placeholder.com/1200x500') center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    /* Mission */
+    .section {
+      padding: 60px 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .mission {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .mission img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    /* What We Do */
+    .cards {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      flex: 1 1 250px;
+      background: #00bfff;
+      padding: 20px;
+      border-radius: 10px;
+      color: #fff;
+      text-align: center;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+
+    /* Help Section */
+    .help {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .help img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    /* Team */
+    .team {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      text-align: center;
+    }
+
+    .member {
+      background: #eaeaea;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .member img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #111;
+      color: #fff;
+      padding: 30px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    footer .contact,
+    footer .about {
+      flex: 1 1 250px;
+    }
+
+    footer a {
+      color: #fff;
+      margin-right: 10px;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .mission, .help {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="https://via.placeholder.com/150x40?text=HeartBridge" alt="HeartBridge Logo">
+    </div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Project</a>
+      <a href="#">Login</a>
+      <button class="btn-support">Support Now ❤</button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Bridge the gap! <br> Change a life</h1>
+  </section>
+
+  <!-- Mission -->
+  <section class="section">
+    <h2>Mission</h2>
+    <div class="mission">
+      <p>At HeartBridge, we are dedicated to creating a transparent and engaging platform where individuals can contribute meaningfully—whether through donations, volunteering, or fundraising—to support impactful community projects.</p>
+      <img src="https://via.placeholder.com/500x300" alt="Mission Image">
+    </div>
+  </section>
+
+  <!-- What We Do -->
+  <section class="section">
+    <h2>What We Do?</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Donate</h3>
+        <p>Help provide food, shelter, and education to those in need.</p>
+      </div>
+      <div class="card">
+        <h3>Volunteer</h3>
+        <p>Making a hands-on impact through community service activities.</p>
+      </div>
+      <div class="card">
+        <h3>Support</h3>
+        <p>We connect people with meaningful projects to uplift communities.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How You Can Help -->
+  <section class="section">
+    <h2>How You Can Help?</h2>
+    <div class="help">
+      <img src="https://via.placeholder.com/400x250" alt="Help Image">
+      <p>Join the movement! Every small act of kindness creates a ripple effect. Donate, volunteer, or spread the word!</p>
+    </div>
+  </section>
+
+  <!-- Our Team -->
+  <section class="section">
+    <h2>Our Team</h2>
+    <div class="team">
+      <div class="member">
+        <img src="https://via.placeholder.com/300x200" alt="Team Member">
+        <p>Some text about you</p>
+      </div>
+      <div class="member">
+        <img src="https://via.placeholder.com/300x200" alt="Team Member">
+        <p>Some text about you</p>
+      </div>
+      <div class="member">
+        <img src="https://via.placeholder.com/300x200" alt="Team Member">
+        <p>Some text about you</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="contact">
+      <p>Buea, SouthWest Cameroon</p>
+      <p>📞 +2371234567</p>
+      <p>📧 heartb@gmail.com</p>
+    </div>
+    <div class="about">
+      <h3>HeartBridge</h3>
+      <p>Bringing people together to support communities through donations, volunteering, and acts of kindness. Join us in making a difference today!</p>
+      <a href="#">🌐</a>
+      <a href="#">📸</a>
+      <a href="#">🐦</a>
+    </div>
+  </footer>
+
+</body>
+</html>
