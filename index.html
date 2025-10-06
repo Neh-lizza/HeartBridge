@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeartBridge – Connecting Hearts, Changing Lives</title>
+
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+
+  <style>
+    :root {
+      --primary: #1a75ff;
+      --accent: #ff7b00;
+      --dark: #0f1720;
+      --light: #fafafa;
+      --white: #ffffff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "Segoe UI", Arial, sans-serif; background: var(--light); color: var(--dark); line-height: 1.6; }
+
+   
+    /* Hero */
+    .hero {
+      background: url("https://picsum.photos/1200/700?grayscale") center/cover no-repeat;
+      min-height: 75vh; display: flex; align-items: center; padding: 3rem 6%; position: relative; color: var(--white);
+    }
+    .hero::before {
+      content:""; position: absolute; inset:0; background: rgba(0,0,0,0.45); z-index:0;
+    }
+    .hero-content { position: relative; z-index:1; max-width: 640px; }
+    .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 1rem; }
+    .hero p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+    .hero .cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { padding: .9rem 1.4rem; border-radius: 999px; font-weight: 700; text-decoration: none; display: inline-block; transition: all 0.3s ease; }
+    .btn-primary { background: var(--primary); color: var(--white); }
+    .btn-primary:hover { background: #005ce6; }
+    .btn-secondary { border: 2px solid var(--white); color: var(--white); }
+    .btn-secondary:hover { background: var(--white); color: var(--dark); }
+
+    /* Sections */
+    section { padding: 4rem 6%; text-align: center; }
+    section h2 { font-size: 2rem; margin-bottom: 2rem; }
+
+    .services, .orphanages, .steps, .testimonials, .partners { display: grid; gap: 2rem; }
+
+    /* Services */
+    .services { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .service-card { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: transform 0.3s, box-shadow 0.3s; }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .service-card h3 { margin-top: 1rem; color: var(--primary); }
+.stats-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin: 3rem 0;
+}
+
+.stat {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  min-width: 150px;
+}
+
+.stat h3 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.stat p {
+  font-size: 1.1rem;
+  color: var(--dark);
+}
+
+    /* Orphanages */
+    .orphanages { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .card { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+    .card img { width: 100%; height: 180px; object-fit: cover; }
+    .card-content { padding: 1rem; text-align: left; }
+
+    /* Steps */
+    .steps { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .step { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: transform 0.3s; }
+    .step:hover { transform: translateY(-5px); }
+
+    /* Testimonials Swiper */
+    .swiper { width: 100%; padding: 2rem 0; }
+    .testimonial { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .testimonial p { font-style: italic; }
+
+    /* Partners Auto-scroll */
+    .partners { display: flex; gap: 3rem; overflow-x: auto; scrollbar-width: none; }
+    .partners::-webkit-scrollbar { display: none; }
+    .partners img { max-height: 50px; margin: auto; filter: grayscale(100%); transition: filter 0.3s; }
+    .partners img:hover { filter: grayscale(0%); }
+
+    /* Newsletter */
+    .newsletter { background: var(--primary); color: white; padding: 3rem 6%; text-align: center; }
+    .newsletter input { padding: .8rem 1rem; border-radius: 999px; border: none; width: 240px; }
+    .newsletter button { padding: .8rem 1.2rem; border: none; border-radius: 999px; background: var(--accent); color: white; margin-left: .5rem; font-weight: 700; cursor: pointer; transition: background 0.3s; }
+    .newsletter button:hover { background: #e56f00; }
+
+   
+    /* Footer */
+    footer { background: var(--dark); color: white; padding: 2rem 6%; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; }
+
+    /* Back-to-top */
+    #backToTop {
+      position: fixed; bottom: 20px; right: 20px; background: var(--accent); color: white;
+      border: none; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; display: none; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); transition: background 0.3s;
+    }
+    #backToTop:hover { background: #e56f00; }
+  </style>
+</head>
+<body>
+
+ 
+  
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 id="hero-text"></h1>
+      <p>At HeartBridge, every small act creates a ripple of hope, one bridge and one heart at a time.
+We connect compassionate people with orphanages in need. Whether you give money,
+ clothes, time, or skills, your kindness builds brighter futures.</p>  <div class="cta">
+        <a href="#donate" class="btn btn-primary">Donate Now</a>
+        <a href="#volunteer" class="btn btn-secondary">Join as Volunteer</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+<section data-aos="fade-up" class="services-section">
+  <h2>Our Services</h2>
+  <div class="services">
+    <div class="service-card">
+      <img src="money.jpg" alt="Money Donations Icon">
+      <h3>Money Donations</h3>
+      <p>Support orphanages financially through secure online payments.</p>
+    </div>
+
+    <div class="service-card">
+      <img src="assets/icons/clothes.png" alt="Clothes & Supplies Icon">
+      <h3>Clothes & Supplies</h3>
+      <p>Give clothes, books, and other essentials.</p>
+    </div>
+
+    <div class="service-card">
+      <img src="assets/icons/volunteer.png" alt="Volunteer Work Icon">
+      <h3>Volunteer Work</h3>
+      <p>Join clean-up drives and community service.</p>
+    </div>
+
+    <div class="service-card">
+      <img src="assets/icons/tutoring.png" alt="Tutoring & Mentorship Icon">
+      <h3>Tutoring & Mentorship</h3>
+      <p>Help children learn and grow with your skills.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Counters -->
+<section data-aos="fade-up" class="stats">
+  <div class="stats-container">
+    <div class="stat">
+      <h3><span class="counter" data-target="120">0</span>+</h3>
+      <p>Children</p>
+    </div>
+    <div class="stat">
+      <h3><span class="counter" data-target="15">0</span>+</h3>
+      <p>Orphanages</p>
+    </div>
+    <div class="stat">
+      <h3><span class="counter" data-target="50">0</span>+</h3>
+      <p>Volunteers</p>
+    </div>
+    <div class="stat">
+      <h3><span class="counter" data-target="200">0</span>+</h3>
+      <p>Donations</p>
+    </div>
+  </div>
+</section>
+
+  <!-- Orphanages -->
+  <section data-aos="fade-up">
+    <h2>Featured Orphanages</h2>
+    <div class="orphanages">
+      <div class="card">
+        <img src="https://picsum.photos/400/250?1" alt="">
+        <div class="card-content"><h3>Bright Future Orphanage</h3><p>Douala, Cameroon • Needs: School supplies</p></div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/400/250?2" alt="">
+        <div class="card-content"><h3>Safe Haven Orphanage</h3><p>Buea, Cameroon • Needs: Food donations</p></div>
+      </div>
+      <div class="card">
+        <img src="https://picsum.photos/400/250?3" alt="">
+        <div class="card-content"><h3>Hope Children’s Home</h3><p>Yaoundé • Needs: Volunteers</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section data-aos="fade-up">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step"><h3>1. Choose a Cause</h3><p>Pick an orphanage or project.</p></div>
+      <div class="step"><h3>2. Make a Contribution</h3><p>Donate money, clothes, or volunteer.</p></div>
+      <div class="step"><h3>3. See the Impact</h3><p>Track your impact through your dashboard.</p></div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section data-aos="fade-up">
+    <h2>What People Say</h2>
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><div class="testimonial"><p>“HeartBridge made it so easy to give back. I volunteered to teach, and it changed my life as much as the kids’.”</p><strong>– Sarah M.</strong></div></div>
+        <div class="swiper-slide"><div class="testimonial"><p>“Donating through HeartBridge was seamless, and I know my support went directly to the children.”</p><strong>– John K.</strong></div></div>
+        <div class="swiper-slide"><div class="testimonial"><p>“I love how transparent the platform is. You see exactly where your donations go.”</p><strong>– Amina T.</strong></div></div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
+
+  <!-- Partners -->
+  <section data-aos="fade-up">
+    <h2>Our Partners</h2>
+    <div class="partners">
+      <img src="https://via.placeholder.com/120x50?text=UNICEF" alt="">
+      <img src="https://via.placeholder.com/120x50?text=UNESCO" alt="">
+      <img src="https://via.placeholder.com/120x50?text=NGO1" alt="">
+      <img src="https://via.placeholder.com/120x50?text=NGO2" alt="">
+      <img src="https://via.placeholder.com/120x50?text=CARE" alt="">
+      <img src="https://via.placeholder.com/120x50?text=Save+the+Children" alt="">
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <div class="newsletter" data-aos="fade-up">
+    <h2>Stay Updated</h2>
+    <p>Subscribe to get updates on new orphanages, donation drives, and volunteering opportunities.</p>
+    <form id="newsletterForm">
+      <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+      <button type="submit">Subscribe</button>
+    </form>
+    <p id="newsletterMsg"></p>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <h3>HeartBridge</h3>
+      <p>Connecting hearts, changing lives.</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>Buea, SouthWest Cameroon</p>
+      <p>+2371234567</p>
+      <p>heartb@gmail.com</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="#">About</a></p>
+      <p><a href="#">Donate</a></p>
+      <p><a href="#">Volunteer</a></p>
+    </div>
+  </footer>
+
+  <!-- Back-to-top button -->
+  <button id="backToTop">↑</button>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    // Init AOS
+    AOS.init({ duration: 1000, once: true });
+
+    // Typing animation
+    const text = "Change doesn’t start with wealth — it starts with heart.";
+    let i = 0;
+    function typeEffect() {
+      if (i < text.length) {
+        document.getElementById("hero-text").textContent += text.charAt(i);
+        i++; setTimeout(typeEffect, 70);
+      }
+    }
+    typeEffect();
+
+   
+
+    // Swiper testimonials
+    new Swiper('.swiper', {
+      loop: true,
+      autoplay: { delay: 4000 },
+      pagination: { el: '.swiper-pagination' },
+    });
+
+    // Newsletter validation
+    document.getElementById("newsletterForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const email = document.getElementById("newsletterEmail").value;
+      const msg = document.getElementById("newsletterMsg");
+      if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        msg.textContent = "✅ Thank you for subscribing!";
+        msg.style.color = "lightgreen";
+      } else {
+        msg.textContent = "❌ Please enter a valid email.";
+        msg.style.color = "red";
+      }
+    });
+// Counter animation
+const counters = document.querySelectorAll('.counter');
+
+counters.forEach(counter => {
+  const updateCount = () => {
+    const target = +counter.getAttribute('data-target');
+    const count = +counter.innerText;
+
+    const increment = target / 200; // adjust speed
+
+    if (count < target) {
+      counter.innerText = Math.ceil(count + increment);
+      setTimeout(updateCount, 20);
+    } else {
+      counter.innerText = target;
+    }
+  };
+
+  updateCount();
+});
+
+    // Back-to-top button
+    const backToTop = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      backToTop.style.display = window.scrollY > 200 ? "flex" : "none";
+    });
+    backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  
+  </script>
+</body>
+</html>

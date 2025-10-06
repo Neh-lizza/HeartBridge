@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - HeartBridge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: white;
+      padding: 2rem 0;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      padding: 0 1.5rem;
+      margin-bottom: 3rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1a75ff;
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.5rem;
+      color: #666;
+      text-decoration: none;
+      transition: all 0.3s;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: rgba(26, 117, 255, 0.1);
+      color: #1a75ff;
+      border-left: 3px solid #1a75ff;
+    }
+
+    .nav-link.active {
+      background: rgba(26, 117, 255, 0.15);
+    }
+
+    .upgrade-card {
+      margin: 2rem 1.5rem;
+      background: linear-gradient(135deg, #1a75ff 0%, #0d47a1 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .upgrade-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .upgrade-card p {
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .btn-upgrade {
+      background: white;
+      color: #1a75ff;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.3s;
+    }
+
+    .btn-upgrade:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 250px;
+      flex: 1;
+      padding: 2rem;
+    }
+
+    /* Header */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-header h1 {
+      font-size: 2rem;
+      color: #1a1a1a;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      width: 300px;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1a75ff, #0d47a1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    /* Time Filter */
+    .time-filter {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-btn {
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .filter-btn.active {
+      background: #1a75ff;
+      color: white;
+      border-color: #1a75ff;
+    }
+
+    .date-range {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border: 1px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stat-card.primary {
+      background: linear-gradient(135deg, #1a75ff 0%, #0d47a1 100%);
+      color: white;
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .stat-title {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .stat-card.primary .stat-title {
+      opacity: 1;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-change {
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .stat-change.positive {
+      color: #4caf50;
+    }
+
+    .stat-card.primary .stat-change {
+      color: rgba(255,255,255,0.9);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+    }
+
+    .btn-donate {
+      background: #ff6b35;
+      color: white;
+    }
+
+    .btn-donate:hover {
+      background: #e55a2b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    }
+
+    .btn-volunteer {
+      background: #4caf50;
+      color: white;
+    }
+
+    .btn-volunteer:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    .btn-events {
+      background: #9c27b0;
+      color: white;
+    }
+
+    .btn-events:hover {
+      background: #7b1fa2;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(156, 39, 176, 0.3);
+    }
+
+    /* Charts and Calendar Row */
+    .dashboard-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .icon-btn {
+      width: 35px;
+      height: 35px;
+      border: 1px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .icon-btn:hover {
+      background: #f5f5f5;
+    }
+
+    /* Chart */
+    .chart-container {
+      height: 300px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: #1a75ff;
+      border-radius: 8px 8px 0 0;
+      position: relative;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .chart-bar:hover {
+      background: #0d47a1;
+      transform: translateY(-5px);
+    }
+
+    .chart-label {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Calendar */
+    .calendar-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-month {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-day-header {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #999;
+      font-weight: 600;
+      padding: 0.5rem 0;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .calendar-day:hover {
+      background: #f5f5f5;
+    }
+
+    .calendar-day.today {
+      background: #1a75ff;
+      color: white;
+      font-weight: 700;
+    }
+
+    .community-growth {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .growth-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .growth-percentage {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #4caf50;
+    }
+
+    /* Recent Activities Table */
+    .activities-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f8f9fa;
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .activity-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .activity-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .status-badge {
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-completed {
+      background: #e8f5e9;
+      color: #4caf50;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #ff9800;
+    }
+
+    .btn-certificate {
+      background: #1a75ff;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-certificate:hover {
+      background: #0d47a1;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .dashboard-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 968px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">❤️ HeartBridge</div>
+      
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#" class="nav-link active">📊 Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🤝 My Donations</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">👥 Volunteering</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🏠 Orphanages</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">📈 Impact Analytics</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">📅 Events</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🏆 Certificates</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">💬 Community</a>
+        </li>
+      </ul>
+
+      <div class="upgrade-card">
+        <h3>Become a Premium Supporter</h3>
+        <p>Get access to exclusive events and rewards</p>
+        <button class="btn-upgrade">Upgrade</button>
+      </div>
+
+      <ul class="nav-menu" style="margin-top: 2rem;">
+        <li class="nav-item">
+          <a href="#" class="nav-link">⚙️ Settings</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">❓ Help Center</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🚪 Log Out</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Header -->
+      <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search...">
+          </div>
+          <button class="icon-btn">🔔</button>
+          <div class="user-profile">
+            <div class="user-avatar">JD</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Filter -->
+      <div class="time-filter">
+        <button class="filter-btn">Day</button>
+        <button class="filter-btn">Week</button>
+        <button class="filter-btn active">Month</button>
+        <button class="filter-btn">Year</button>
+        <div class="date-range">
+          📅 1 Sep 2024 - 31 Sep 2024
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card primary">
+          <div class="stat-header">
+            <span class="stat-title">Total Donated</span>
+            <span>💰</span>
+          </div>
+          <div class="stat-value">$1,245</div>
+          <div class="stat-change">
+            ↗️ +12% from last month
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Volunteer Hours</span>
+            <span>⏱️</span>
+          </div>
+          <div class="stat-value">28</div>
+          <div class="stat-change positive">
+            ↗️ +8% from last month
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Events Attended</span>
+            <span>📅</span>
+          </div>
+          <div class="stat-value">5</div>
+          <div class="stat-change positive">
+            ↗️ +2 from last month
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Impact Score</span>
+            <span>🏆</span>
+          </div>
+          <div class="stat-value">850</div>
+          <div class="stat-change positive">
+            ↗️ +15% from last month
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button class="action-btn btn-donate">
+          ➕ Make a Donation
+        </button>
+        <button class="action-btn btn-volunteer">
+          🤝 Volunteer Now
+        </button>
+        <button class="action-btn btn-events">
+          📅 View Events
+        </button>
+      </div>
+
+      <!-- Charts and Calendar Row -->
+      <div class="dashboard-row">
+        
+        <!-- Donation Chart -->
+        <div class="chart-card">
+          <div class="card-header">
+            <h3 class="card-title">Monthly Donations</h3>
+            <div class="card-actions">
+              <button class="icon-btn">🔄</button>
+              <button class="icon-btn">↗️</button>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <div>
+              <div class="chart-bar" style="height: 180px;"></div>
+              <div class="chart-label">Jan</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 160px;"></div>
+              <div class="chart-label">Feb</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 220px;"></div>
+              <div class="chart-label">Mar</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 140px;"></div>
+              <div class="chart-label">Apr</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 250px;"></div>
+              <div class="chart-label">May</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 120px;"></div>
+              <div class="chart-label">Jun</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-card">
+          <div class="calendar-header">
+            <span class="calendar-month">September 2024</span>
+            <div class="calendar-nav">
+              <button class="icon-btn">←</button>
+              <button class="icon-btn">→</button>
+            </div>
+          </div>
+
+          <div class="calendar-grid">
+            <div class="calendar-day-header">Tue</div>
+            <div class="calendar-day-header">Wed</div>
+            <div class="calendar-day-header">Thu</div>
+            <div class="calendar-day-header">Fri</div>
+            <div class="calendar-day-header">Sat</div>
+            <div class="calendar-day-header">Sun</div>
+            <div class="calendar-day-header">Mon</div>
+            
+            <div class="calendar-day">17</div>
+            <div class="calendar-day">18</div>
+            <div class="calendar-day today">19</div>
+            <div class="calendar-day">20</div>
+            <div class="calendar-day">21</div>
+            <div class="calendar-day">22</div>
+            <div class="calendar-day">23</div>
+          </div>
+
+          <div class="community-growth">
+            <div class="growth-header">
+              <div>
+                <h4>Community Impact</h4>
+                <p style="font-size: 0.85rem; color: #666;">Your contribution growth</p>
+              </div>
+              <div class="growth-percentage">+18%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activities -->
+      <div class="activities-card">
+        <div class="card-header">
+          <h3 class="card-title">Recent Volunteer Activities</h3>
+          <div class="card-actions">
+            <button class="icon-btn">🔄</button>
+            <button class="icon-btn">↗️</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Activity Name</th>
+                <th>Orphanage</th>
+                <th>Date</th>
+                <th>Hours</th>
+                <th>Status</th>
+                <th>Certificate</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="activity-info">
+                    <div class="activity-icon" style="background: rgba(76, 175, 80, 0.1); color: #4caf50;">
+                      📚
+                    </div>
+                    <div>
+                      <strong>Teaching Workshop</strong>
+                      <div style="font-size: 0.85rem; color: #666;">Mathematics & English</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Hope Children's Home</td>
+                <td>15 Sep 2024</td>
+                <td>4 hours</td>
+                <td><span class="status-badge status-completed">Completed</span></td>
+                <td><button class="btn-certificate">Download</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="activity-info">
+                    <div class="activity-icon" style="background: rgba(255, 152, 0, 0.1); color: #ff9800;">
+                      🧹
+                    </div>
+                    <div>
+                      <strong>Clean-Up Drive</strong>
+                      <div style="font-size: 0.85rem; color: #666;">Community Service</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Safe Haven Orphanage</td>
+                <td>8 Sep 2024</td>
+                <td>3 hours</td>
+                <td><span class="status-badge status-completed">Completed</span></td>
+                <td><button class="btn-certificate">Download</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="activity-info">
+                    <div class="activity-icon" style="background: rgba(156, 39, 176, 0.1); color: #9c27b0;">
+                      🎨
+                    </div>
+                    <div>
+                      <strong>Arts Workshop</strong>
+                      <div style="font-size: 0.85rem; color: #666;">Creative Activities</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Bright Future Orphanage</td>
+                <td>22 Sep 2024</td>
+                <td>5 hours</td>
+                <td><span class="status-badge status-pending">Upcoming</span></td>
+                <td><button class="btn-certificate" disabled style="opacity: 0.5; cursor: not-allowed;">Pending</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    // Auto-update date range
+    const today = new Date();
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+    const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    
+    const formatDate = (date) => {
+      return `${date.getDate()} ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+    };
+
+    document.querySelector('.date-range').textContent = `📅 ${formatDate(firstDay)} - ${formatDate(lastDay)}`;
+
+    // Chart bar hover effect with tooltips
+    document.querySelectorAll('.chart-bar').forEach(bar => {
+      bar.addEventListener('mouseenter', function() {
+        const tooltip = document.createElement('div');
+        tooltip.style.cssText = 'position: absolute; background: #1a1a1a; color: white; padding: 0.5rem; border-radius: 4px; font-size: 0.85rem; bottom: 100%; left: 50%; transform: translateX(-50%); white-space: nowrap;';
+        tooltip.textContent = '$' + Math.floor(Math.random() * 500 + 100);
+        this.style.position = 'relative';
+        this.appendChild(tooltip);
+      });
+      
+      bar.addEventListener('mouseleave', function() {
+        const tooltip = this.querySelector('div');
+        if (tooltip) tooltip.remove();
+      });
+    });
+
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // Action buttons
+    document.querySelector('.btn-donate').addEventListener('click', () => {
+      alert('Redirecting to donation page...');
+    });
+
+    document.querySelector('.btn-volunteer').addEventListener('click', () => {
+      alert('Redirecting to volunteer opportunities...');
+    });
+
+    document.querySelector('.btn-events').addEventListener('click', () => {
+      window.location.href = 'events.html';
+    });
+
+    // Certificate download
+    document.querySelectorAll('.btn-certificate:not([disabled])').forEach(btn => {
+      btn.addEventListener('click', function() {
+        alert('Downloading your certificate of participation...');
+      });
+    });
+  </script>
+
+</body>
+</html>

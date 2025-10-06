@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - HeartBridge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: #1a1a1a;
+      padding: 2rem 0;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+      color: white;
+    }
+
+    .logo {
+      padding: 0 1.5rem;
+      margin-bottom: 3rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+    }
+
+    .admin-badge {
+      background: #ff6b35;
+      color: white;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.5rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: all 0.3s;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border-left: 3px solid #ff6b35;
+    }
+
+    .nav-link.active {
+      background: rgba(255,107,53,0.2);
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-left: 260px;
+      flex: 1;
+      padding: 2rem;
+    }
+
+    /* Header */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .dashboard-header h1 {
+      font-size: 2rem;
+      color: #1a1a1a;
+    }
+
+    .header-subtitle {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      width: 300px;
+      outline: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    .notification-btn {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border: 1px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ff6b35;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6b35, #e55a2b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: #1a75ff;
+    }
+
+    .stat-card.warning::before { background: #ff9800; }
+    .stat-card.success::before { background: #4caf50; }
+    .stat-card.danger::before { background: #f44336; }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .stat-title {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 600;
+    }
+
+    .stat-icon {
+      font-size: 1.8rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-change {
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .stat-change.positive { color: #4caf50; }
+    .stat-change.negative { color: #f44336; }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .action-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+
+    .action-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .action-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .action-title {
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .action-desc {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Pending Approvals */
+    .pending-section {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pending-badge {
+      background: #ff9800;
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .view-all-btn {
+      color: #1a75ff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .view-all-btn:hover {
+      color: #0d47a1;
+    }
+
+    /* Table */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f8f9fa;
+    }
+
+    th {
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .orphanage-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .orphanage-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      background: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .status-badge {
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: #fff3e0;
+      color: #ff9800;
+    }
+
+    .status-approved {
+      background: #e8f5e9;
+      color: #4caf50;
+    }
+
+    .status-rejected {
+      background: #ffebee;
+      color: #f44336;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn-approve {
+      background: #4caf50;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-approve:hover {
+      background: #45a049;
+    }
+
+    .btn-reject {
+      background: #f44336;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-reject:hover {
+      background: #da190b;
+    }
+
+    .btn-view {
+      background: #1a75ff;
+      color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-view:hover {
+      background: #0d47a1;
+    }
+
+    /* Charts Row */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .chart-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .chart-filters {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 0.8rem;
+      border: 1px solid #e0e0e0;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+
+    .filter-btn.active {
+      background: #1a75ff;
+      color: white;
+      border-color: #1a75ff;
+    }
+
+    .chart-container {
+      height: 250px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 0.5rem;
+      padding: 1rem 0;
+    }
+
+    .chart-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #1a75ff 0%, #0d47a1 100%);
+      border-radius: 8px 8px 0 0;
+      position: relative;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .chart-bar:hover {
+      background: linear-gradient(180deg, #0d47a1 0%, #1a75ff 100%);
+      transform: translateY(-5px);
+    }
+
+    .chart-label {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Activity Feed */
+    .activity-feed {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .activity-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #f0f0f0;
+      transition: background 0.3s;
+    }
+
+    .activity-item:hover {
+      background: #f8f9fa;
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .activity-time {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .charts-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 968px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid, .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        ❤️ HeartBridge <span class="admin-badge">ADMIN</span>
+      </div>
+      
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#" class="nav-link active">📊 Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🏠 Manage Orphanages</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">👥 User Management</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">💰 Donations</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">📅 Events Management</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">✅ Approvals</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🏆 Certificates</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">📊 Reports</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🚨 Flagged Content</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">💬 Messages</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">⚙️ Settings</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">🚪 Logout</a>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      
+      <!-- Header -->
+      <div class="dashboard-header">
+        <div>
+          <h1>Admin Dashboard</h1>
+          <p class="header-subtitle">Welcome back, Admin. Here's what's happening today.</p>
+        </div>
+        <div class="header-right">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Search...">
+          </div>
+          <button class="notification-btn">
+            🔔
+            <span class="notification-badge">5</span>
+          </button>
+          <div class="user-profile">
+            <div class="user-avatar">AD</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Total Orphanages</span>
+            <span class="stat-icon">🏠</span>
+          </div>
+          <div class="stat-value">89</div>
+          <div class="stat-change positive">
+            ↗️ +5 this month
+          </div>
+        </div>
+
+        <div class="stat-card warning">
+          <div class="stat-header">
+            <span class="stat-title">Pending Approvals</span>
+            <span class="stat-icon">⏳</span>
+          </div>
+          <div class="stat-value">12</div>
+          <div class="stat-change">
+            Requires attention
+          </div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="stat-header">
+            <span class="stat-title">Total Users</span>
+            <span class="stat-icon">👥</span>
+          </div>
+          <div class="stat-value">1,247</div>
+          <div class="stat-change positive">
+            ↗️ +89 this week
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <span class="stat-title">Total Donations</span>
+            <span class="stat-icon">💰</span>
+          </div>
+          <div class="stat-value">$45,892</div>
+          <div class="stat-change positive">
+            ↗️ +$5,200 this month
+          </div>
+        </div>
+
+        <div class="stat-card success">
+          <div class="stat-header">
+            <span class="stat-title">Active Events</span>
+            <span class="stat-icon">📅</span>
+          </div>
+          <div class="stat-value">18</div>
+          <div class="stat-change">
+            6 upcoming this week
+          </div>
+        </div>
+
+        <div class="stat-card danger">
+          <div class="stat-header">
+            <span class="stat-title">Flagged Reports</span>
+            <span class="stat-icon">🚨</span>
+          </div>
+          <div class="stat-value">3</div>
+          <div class="stat-change">
+            Needs review
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="action-card" onclick="quickAction('approve')">
+          <div class="action-icon">✅</div>
+          <div class="action-title">Approve Orphanage</div>
+          <p class="action-desc">Review pending applications</p>
+        </div>
+
+        <div class="action-card" onclick="quickAction('user')">
+          <div class="action-icon">👤</div>
+          <div class="action-title">Add User</div>
+          <p class="action-desc">Create new user account</p>
+        </div>
+
+        <div class="action-card" onclick="quickAction('event')">
+          <div class="action-icon">📅</div>
+          <div class="action-title">Create Event</div>
+          <p class="action-desc">Schedule new event</p>
+        </div>
+
+        <div class="action-card" onclick="quickAction('report')">
+          <div class="action-icon">📊</div>
+          <div class="action-title">Generate Report</div>
+          <p class="action-desc">Export analytics data</p>
+        </div>
+
+        <div class="action-card" onclick="quickAction('certificate')">
+          <div class="action-icon">🏆</div>
+          <div class="action-title">Issue Certificate</div>
+          <p class="action-desc">Award volunteer certificate</p>
+        </div>
+
+        <div class="action-card" onclick="quickAction('broadcast')">
+          <div class="action-icon">📢</div>
+          <div class="action-title">Send Broadcast</div>
+          <p class="action-desc">Message all users</p>
+        </div>
+      </div>
+
+      <!-- Pending Orphanage Approvals -->
+      <div class="pending-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            Pending Orphanage Approvals
+            <span class="pending-badge">12</span>
+          </h2>
+          <a href="#" class="view-all-btn">View All →</a>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Orphanage</th>
+                <th>Location</th>
+                <th>Applied Date</th>
+                <th>Children</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="orphanage-info">
+                    <div class="orphanage-logo">🏠</div>
+                    <div>
+                      <strong>New Dawn Children Center</strong>
+                      <div style="font-size: 0.85rem; color: #666;">Contact: +237 777 888 999</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Bamenda, Northwest</td>
+                <td>2 days ago</td>
+                <td>22 children</td>
+                <td><span class="status-badge status-pending">Pending Review</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-view" onclick="viewDetails(1)">View</button>
+                    <button class="btn-approve" onclick="approve(1)">Approve</button>
+                    <button class="btn-reject" onclick="reject(1)">Reject</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="orphanage-info">
+                    <div class="orphanage-logo">🏠</div>
+                    <div>
+                      <strong>Blessed Kids Home</strong>
+                      <div style="font-size: 0.85rem; color: #666;">Contact: +237 666 555 444</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Douala, Littoral</td>
+                <td>5 days ago</td>
+                <td>18 children</td>
+                <td><span class="status-badge status-pending">Pending Review</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-view" onclick="viewDetails(2)">View</button>
+                    <button class="btn-approve" onclick="approve(2)">Approve</button>
+                    <button class="btn-reject" onclick="reject(2)">Reject</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="orphanage-info">
+                    <div class="orphanage-logo">🏠</div>
+                    <div>
+                      <strong>Heritage Kids Foundation</strong>
+                      <div style="font-size: 0.85rem; color: #666;">Contact: +237 111 222 333</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Yaoundé, Centre</td>
+                <td>1 week ago</td>
+                <td>25 children</td>
+                <td><span class="status-badge status-pending">Pending Review</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="btn-view" onclick="viewDetails(3)">View</button>
+                    <button class="btn-approve" onclick="approve(3)">Approve</button>
+                    <button class="btn-reject" onclick="reject(3)">Reject</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        
+        <!-- Donation Trends -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Donation Trends</h3>
+            <div class="chart-filters">
+              <button class="filter-btn">Week</button>
+              <button class="filter-btn active">Month</button>
+              <button class="filter-btn">Year</button>
+            </div>
+          </div>
+          
+          <div class="chart-container">
+            <div>
+              <div class="chart-bar" style="height: 140px;"></div>
+              <div class="chart-label">Jan</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 180px;"></div>
+              <div class="chart-label">Feb</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 160px;"></div>
+              <div class="chart-label">Mar</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 200px;"></div>
+              <div class="chart-label">Apr</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 150px;"></div>
+              <div class="chart-label">May</div>
+            </div>
+            <div>
+              <div class="chart-bar" style="height: 220px;"></div>
+              <div class="chart-label">Jun</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3 class="chart-title">Recent Activity</h3>
+          </div>
+          
+          <div class="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon" style="background: rgba(76, 175, 80, 0.1); color: #4caf50;">
+                ✅
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Orphanage Approved</div>
+                <p style="font-size: 0.85rem; color: #666;">Hope Children's Home was verified</p>
+                <div class="activity-time">2 hours ago</div>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon" style="background: rgba(26, 117, 255, 0.1); color: #1a75ff;">
+                💰
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">New Donation</div>
+                <p style="font-size: 0.85rem; color: #666;">$250 donated to Bright Future</p>
+                <div class="activity-time">4 hours ago</div>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon" style="background: rgba(255, 152, 0, 0.1); color: #ff9800;">
+                👤
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">New User Registered</div>
+               <p style="font-size: 0.85rem; color: #666;">$250 donated to Bright Future</p>
+                <div class="activity-time">4 hours ago</div>
+              </div>
+            </div>

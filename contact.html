@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - HeartBridge</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #1a75ff !important;
+    }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1509099836639-18ba1795216d?fit=crop&w=1600&q=80') center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+    .contact-card {
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      background: #fff;
+    }
+    .contact-info i {
+      font-size: 1.5rem;
+      color: #1a75ff;
+      margin-right: 10px;
+    }
+    footer {
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="#">❤️ HeartBridge</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Orphanages</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Contact Us</h1>
+    <p>We’d love to hear from you! Reach out with your questions, suggestions, or to get involved with HeartBridge.</p>
+  </section>
+
+  <!-- Contact Section -->
+  <div class="container my-5">
+    <div class="row g-4">
+      <!-- Contact Info -->
+      <div class="col-md-5">
+        <div class="contact-card">
+          <h4>Get in Touch</h4>
+          <p>We’re here to support you in connecting with orphanages and making a difference.</p>
+          <div class="contact-info mt-3">
+            <p><i class="bi bi-geo-alt"></i><strong> Address:</strong> Buea, Cameroon</p>
+            <p><i class="bi bi-telephone"></i><strong> Phone:</strong> +237 6XX XXX XXX</p>
+            <p><i class="bi bi-envelope"></i><strong> Email:</strong> info@heartbridge.org</p>
+          </div>
+          <div class="mt-3">
+            <a href="#" class="btn btn-primary btn-sm">Donate</a>
+            <a href="#" class="btn btn-outline-primary btn-sm">Volunteer</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-md-7">
+        <div class="contact-card">
+          <h4>Send Us a Message</h4>
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Your Name</label>
+              <input type="text" class="form-control" placeholder="Enter your full name">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Subject</label>
+              <input type="text" class="form-control" placeholder="Subject of your message">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Message</label>
+              <textarea class="form-control" rows="5" placeholder="Write your message here"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Embed -->
+    <div class="mt-5">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15916.727597893163!2d9.2452!3d4.1523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x106132567f0b27d7%3A0x7d0cf0a4b49f07f0!2sBuea%2C%20Cameroon!5e0!3m2!1sen!2scm!4v1632846381234!5m2!1sen!2scm" 
+        width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 HeartBridge | Bringing hearts together for children</p>
+    <p>
+      <a href="#" class="text-white text-decoration-none">Donate</a> | 
+      <a href="#" class="text-white text-decoration-none">Volunteer</a> | 
+      <a href="#" class="text-white text-decoration-none">Contact</a>
+    </p>
+  </footer>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

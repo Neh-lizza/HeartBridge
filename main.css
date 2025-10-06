@@ -1,0 +1,283 @@
+
+    :root {
+      --primary: #1a75ff;
+      --accent: #ff7b00;
+      --dark: #0f1720;
+      --light: #fafafa;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--light);
+      line-height: 1.6;
+    }
+
+    /* Navbar - Transparent with blur */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 6%;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      border-bottom: 1px solid rgba(26, 117, 255, 0.1);
+    }
+
+    .navbar.scrolled {
+      padding: 0.8rem 6%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+    }
+
+    .navbar .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-icon {
+      font-size: 1.6rem;
+      filter: drop-shadow(0 2px 4px rgba(255,123,0,0.3));
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      10% { transform: scale(1.1); }
+      20% { transform: scale(1); }
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+    }
+
+    .navbar nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      padding: 0.8rem 1.3rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar nav a:not(.btn-heart):hover {
+      color: var(--primary);
+      background: rgba(26, 117, 255, 0.05);
+    }
+
+    .navbar nav a.active {
+      color: var(--primary);
+      background: rgba(26, 117, 255, 0.1);
+    }
+
+    .navbar nav a.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0.5rem;
+      left: 1.3rem;
+      right: 1.3rem;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .btn-heart {
+      background: linear-gradient(135deg, var(--accent) 0%, #e56a00 100%);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255,123,0,0.25);
+      margin-left: 0.5rem;
+    }
+
+    .btn-heart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,123,0,0.35);
+      background: linear-gradient(135deg, #e56a00 0%, var(--accent) 100%);
+    }
+
+    .btn-heart:active {
+      transform: translateY(0);
+    }
+
+    /* Mobile Toggle */
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+    }
+
+    .mobile-toggle:hover {
+      background: rgba(0,0,0,0.05);
+    }
+
+    .mobile-toggle span {
+      width: 28px;
+      height: 3px;
+      background: var(--dark);
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(7px, 7px);
+      background: var(--primary);
+    }
+
+    .mobile-toggle.active span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+
+    .mobile-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+      background: var(--primary);
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 968px) {
+      .navbar {
+        padding: 1rem 4%;
+      }
+
+      .mobile-toggle {
+        display: flex;
+      }
+
+      .navbar nav {
+        display: none;
+        flex-direction: column;
+        background: var(--white);
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        width: 100%;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        padding: 1.5rem 4%;
+        gap: 0;
+        border-top: 2px solid rgba(26, 117, 255, 0.1);
+        animation: slideDown 0.3s ease;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .navbar nav.show {
+        display: flex;
+      }
+
+      .navbar nav a {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        border-radius: 8px;
+        margin-bottom: 0.3rem;
+      }
+
+      .navbar nav a.active::after {
+        left: 1rem;
+        right: auto;
+        bottom: 50%;
+        transform: translateY(50%);
+        width: 4px;
+        height: 60%;
+      }
+
+      .btn-heart {
+        margin-left: 0;
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        padding: 1rem 3%;
+      }
+
+      .navbar .logo {
+        font-size: 1.2rem;
+      }
+
+      .logo-icon {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* Page Content Styling */
+    main {
+      padding: 3rem 6%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    main h1 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1rem;
+    }
+
+    main p {
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .demo-content {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 968px) {
+      main {
+        padding: 2rem 4%;
+      }
+    }
+ 

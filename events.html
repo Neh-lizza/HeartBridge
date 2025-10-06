@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upcoming Events - HeartBridge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+      padding: 1rem 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: white;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: rgba(255,255,255,0.9);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover, nav a.active {
+      color: white;
+    }
+
+    .btn-get-tickets {
+      background: white;
+      color: #1a237e;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+
+    .btn-get-tickets:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.3);
+    }
+
+    /* Hero Section */
+    .hero-events {
+      background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=1600&h=400&fit=crop') center/cover;
+      min-height: 40vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+
+    .hero-events::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,35,126,0.8) 0%, rgba(13,71,161,0.8) 100%);
+    }
+
+    .hero-events h1 {
+      position: relative;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .breadcrumb {
+      position: relative;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .breadcrumb a {
+      color: rgba(255,255,255,0.9);
+      text-decoration: none;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* Featured Event */
+    .featured-event {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      position: relative;
+      color: white;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+
+    .featured-content {
+      padding: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .event-badge {
+      display: inline-block;
+      background: #ff6b35;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .featured-event h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .event-meta {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Tabs */
+    .event-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .tab {
+      padding: 1rem 2rem;
+      border: none;
+      background: none;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-bottom: 3px solid transparent;
+      position: relative;
+      bottom: -2px;
+    }
+
+    .tab.active {
+      color: #1a237e;
+      border-bottom-color: #1a237e;
+    }
+
+    /* Events Grid */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .event-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .event-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .event-body {
+      padding: 1.5rem;
+    }
+
+    .event-date {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .date-badge {
+      background: #f0f0f0;
+      padding: 0.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      color: #1a237e;
+    }
+
+    .event-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: #1a237e;
+    }
+
+    .event-card p {
+      color: #666;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .event-location {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Countdown Timer */
+    .countdown {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .countdown-item {
+      flex: 1;
+      text-align: center;
+      padding: 0.5rem;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .countdown-number {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #1a237e;
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 0.75rem;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    /* Event Footer */
+    .event-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .attendees {
+      display: flex;
+      align-items: center;
+    }
+
+    .attendee-avatars {
+      display: flex;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid white;
+      margin-left: -10px;
+    }
+
+    .avatar:first-child {
+      margin-left: 0;
+    }
+
+    .more-attendees {
+      margin-left: 0.5rem;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .btn-see-more {
+      background: #1a237e;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-see-more:hover {
+      background: #0d47a1;
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 700px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      position: relative;
+      height: 250px;
+      overflow: hidden;
+    }
+
+    .modal-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: white;
+      color: #333;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .modal-close:hover {
+      background: #f0f0f0;
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .modal-body h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #1a237e;
+    }
+
+    .modal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .modal-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .modal-meta-item strong {
+      color: #1a237e;
+    }
+
+    .modal-description {
+      line-height: 1.8;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-section {
+      margin: 2rem 0;
+    }
+
+    .modal-section h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #1a237e;
+    }
+
+    .modal-section ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .modal-section li {
+      padding: 0.5rem 0;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .modal-section li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #4caf50;
+      font-weight: 700;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .btn-register {
+      flex: 1;
+      background: #ff6b35;
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-register:hover {
+      background: #e55a2b;
+      transform: translateY(-2px);
+    }
+
+    .btn-share {
+      background: #f0f0f0;
+      color: #333;
+      padding: 1rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-share:hover {
+      background: #e0e0e0;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 3rem;
+    }
+
+    .page-btn {
+      background: white;
+      border: 1px solid #e0e0e0;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .page-btn:hover {
+      background: #f0f0f0;
+    }
+
+    .page-btn.active {
+      background: #1a237e;
+      color: white;
+      border-color: #1a237e;
+    }
+
+    /* Footer */
+    footer {
+      background: #1a1a1a;
+      color: white;
+      padding: 3rem 6%;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-section h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section li {
+      margin-bottom: 0.7rem;
+    }
+
+    .footer-section a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      header {
+        padding: 1rem 4%;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero-events h1 {
+        font-size: 2.5rem;
+      }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-event h2 {
+        font-size: 1.8rem;
+      }
+
+      .event-tabs {
+        overflow-x: auto;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="/" class="logo">
+      ❤️ HeartBridge
+    </a>
+
+    <nav>
+      <a href="/">Home</a>
+      <a href="#">About us</a>
+      <a href="#" class="active">Events</a>
+      <a href="#">Pages</a>
+      <a href="#">Team</a>
+      <a href="#">News</a>
+      <a href="#">Contact</a>
+    </nav>
+
+    <a href="#" class="btn-get-tickets">🎫 Get Involved</a>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-events">
+    <h1>Upcoming Events</h1>
+    <div class="breadcrumb">
+      <a href="/">Home</a> >> Events
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- Featured Event -->
+    <div class="featured-event">
+      <div class="featured-content">
+        <span class="event-badge">Upcoming Event</span>
+        <h2>Annual Charity Gala & Fundraiser</h2>
+        <p>Join us for an evening of inspiration, music, and giving back. All proceeds go directly to supporting orphanages across Cameroon.</p>
+        
+        <div class="countdown" id="featured-countdown">
+          <div class="countdown-item">
+            <span class="countdown-number" id="days">00</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="hours">00</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="minutes">00</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="seconds">00</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+
+        <div class="event-meta">
+          <div class="meta-item">📅 15 Jan, 2025</div>
+          <div class="meta-item">🕐 6:00 PM - 10:00 PM</div>
+          <div class="meta-item">📍 Hilton Hotel, Douala</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event Tabs -->
+    <div class="event-tabs">
+      <button class="tab active">All Events</button>
+      <button class="tab">Volunteer Events</button>
+      <button class="tab">Fundraisers</button>
+      <button class="tab">Workshops</button>
+    </div>
+
+    <!-- Events Grid -->
+    <div class="events-grid" id="events-grid">
+      <!-- Events will be dynamically loaded -->
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="page-btn">←</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">4</button>
+      <button class="page-btn">→</button>
+    </div>
+  </div>
+
+  <!-- Event Detail Modal -->
+  <div class="modal" id="event-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img id="modal-image" src="" alt="Event">
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <h2 id="modal-title"></h2>
+        
+        <div class="modal-meta">
+          <div class="modal-meta-item">
+            <span>📅</span>
+            <span id="modal-date"></span>
+          </div>
+          <div class="modal-meta-item">
+            <span>🕐</span>
+            <span id="modal-time"></span>
+          </div>
+          <div class="modal-meta-item">
+            <span>📍</span>
+            <span id="modal-location"></span>
+          </div>
+        </div>
+
+        <div class="countdown" id="modal-countdown">
+          <div class="countdown-item">
+            <span class="countdown-number" id="modal-days">00</span>
+            <span class="countdown-label">Days</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="modal-hours">00</span>
+            <span class="countdown-label">Hours</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="modal-minutes">00</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-item">
+            <span class="countdown-number" id="modal-seconds">00</span>
+            <span class="countdown-label">Seconds</span>
+          </div>
+        </div>
+
+        <div class="modal-description" id="modal-description"></div>
+
+        <div class="modal-section">
+          <h3>What to Expect</h3>
+          <ul id="modal-expectations"></ul>
+        </div>
+
+        <div class="modal-section">
+          <h3>Requirements</h3>
+          <ul id="modal-requirements"></ul>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn-register">Register Now</button>
+          <button class="btn-share">Share</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>❤️ HeartBridge</h3>
+        <p style="color: rgba(255,255,255,0.7); line-height: 1.8;">Connecting hearts, changing lives across Cameroon.</p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Orphanages</a></li>
+          <li><a href="#">Events</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="#">📞 +237 123 456 789</a></li>
+          <li><a href="#">✉️ info@heartbridge.cm</a></li>
+          <li><a href="#">📍 Buea, Cameroon</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © 2025 HeartBridge. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Events Data
+    const eventsData = [
+      {
+        id: 1,
+        title: "Volunteer Teaching at Hope Home",
+        date: "2025-01-10",
+        time: "9:00 AM - 12:00 PM",
+        location: "Hope Children's Home, Douala",
+        image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=250&fit=crop",
+        type: "volunteer",
+        description: "Join us for a rewarding morning teaching English and Mathematics to children at Hope Home. Your skills can make a lasting impact on young minds eager to learn.",
+        expectations: [
+          "Interactive teaching sessions with 20-30 children",
+          "Prepare simple lesson plans",
+          "Fun educational games and activities",
+          "Light refreshments provided"
+        ],
+        requirements: [
+          "Basic teaching or tutoring experience",
+          "Patience and passion for education",
+          "Bring teaching materials if possible",
+          "Commitment to full session"
+        ],
+        attendees: 12
+      },
+      {
+        id: 2,
+        title: "Community Clean-Up Drive",
+        date: "2025-01-12",
+        time: "7:00 AM - 11:00 AM",
+        location: "Safe Haven Orphanage, Buea",
+        image: "https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=250&fit=crop",
+        type: "volunteer",
+        description: "Help us beautify the orphanage surroundings and create a cleaner, safer environment for the children. Every pair of hands counts!",
+        expectations: [
+          "Outdoor cleaning and gardening",
+          "Painting and minor repairs",
+          "Team building activities",
+          "Breakfast and lunch provided"
+        ],
+        requirements: [
+          "Wear comfortable work clothes",
+          "Bring gloves if you have them",
+          "Physical fitness for outdoor work",
+          "Positive attitude"
+        ],
+        attendees: 25
+      },
+      {
+        id: 3,
+        title: "Music & Arts Workshop",
+        date: "2025-01-15",
+        time: "2:00 PM - 5:00 PM",
+        location: "Bright Future Orphanage, Yaoundé",
+        image: "https://images.unsplash.com/photo-1514007460775-7884f1e3d1cb?w=400&h=250&fit=crop",
+        type: "workshop",
+        description: "Introduce children to the joy of music and arts. Teach basic instruments, painting, or crafts and watch their creativity flourish.",
+        expectations: [
+          "Music lessons for beginners",
+          "Arts and crafts sessions",
+          "Performance showcase",
+          "Materials provided"
+        ],
+        requirements: [
+          "Musical or artistic skills",
+          "Ability to work with children",
+          "Bring instruments if available",
+          "Creative mindset"
+        ],
+        attendees: 8
+      },
+      {
+        id: 4,
+        title: "Medical Check-Up Camp",
+        date: "2025-01-18",
+        time: "8:00 AM - 4:00 PM",
+        location: "Grace Orphanage, Garoua",
+        image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=400&h=250&fit=crop",
+        type: "healthcare",
+        description: "Free medical check-ups and health screenings for children. Healthcare professionals and volunteers needed to ensure every child receives proper care.",
+        expectations: [
+          "General health screenings",
+          "Dental check-ups",
+          "Vision tests",
+          "Health education sessions"
+        ],
+        requirements: [
+          "Medical professionals preferred",
+          "Volunteers for administrative support",
+          "Bring medical supplies if possible",
+          "Full day commitment"
+        ],
+        attendees: 15
+      },
+      {
+        id: 5,
+        title: "Sports Day & Recreation",
+        date: "2025-01-20",
+        time: "10:00 AM - 3:00 PM",
+        location: "Sunshine Children Village, Limbe",
+        image: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=400&h=250&fit=crop",
+        type: "volunteer",
+        description: "Organize fun sports activities and games for children. Help them stay active, build teamwork skills, and have a great time!",
+        expectations: [
+          "Football, volleyball, and relay races",
+          "Team building games",
+          "Prizes and awards ceremony",
+          "Lunch and refreshments"
+        ],
+        requirements: [
+          "Sports equipment welcome",
+          "Energy and enthusiasm",
+          "Ability to supervise children",
+          "First aid knowledge is a plus"
+        ],
+        attendees: 20
+      },
+      {
+        id: 6,
+        title: "Career Guidance Workshop",
+        date: "2025-01-22",
+        time: "1:00 PM - 4:00 PM",
+        location: "Phoenix Rising Orphanage, Douala",
+        image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop",
+        type: "workshop",
+        description: "Share your professional experience with teenagers preparing for their future. Provide guidance, mentorship, and inspiration for their career paths.",
+        expectations: [
+          "Career talks and Q&A sessions",
+          "CV writing workshop",
+          "Interview preparation tips",
+          "Networking opportunities"
+        ],
+        requirements: [
+          "Professional work experience",
+          "Good communication skills",
+          "Motivational mindset",
+          "Career resources to share"
+        ],
+        attendees: 10
+      }
+    ];
+
+    // Load events
+    function loadEvents() {
+      const grid = document.getElementById('events-grid');
+      grid.innerHTML = '';
+
+      eventsData.forEach(event => {
+        const eventDate = new Date(event.date + ' ' + event.time);
+        const card = createEventCard(event, eventDate);
+        grid.appendChild(card);
+      });
+    }
+
+    // Create event card
+    function createEventCard(event, eventDate) {
+      const card = document.createElement('div');
+      card.className = 'event-card';
+      
+      const now = new Date();
+      const timeLeft = eventDate - now;
+      const daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+      card.innerHTML = `
+        <img src="${event.image}" alt="${event.title}" class="event-image">
+        <div class="event-body">
+          <div class="event-date">
+            <span class="date-badge">📅 ${formatDate(eventDate)}</span>
+            <span>🕐 ${event.time}</span>
+          </div>
+          <h3>${event.title}</h3>
+          <p>${event.description.substring(0, 100)}...</p>
+          <div class="event-location">
+            📍 ${event.location}
+          </div>
+          
+          <div class="countdown" data-date="${event.date}" data-time="${event.time}">
+            <div class="countdown-item">
+              <span class="countdown-number">${daysLeft}</span>
+              <span class="countdown-label">Days</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number">${hoursLeft}</span>
+              <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+              <span class="countdown-number">Left</span>
+              <span class="countdown-label"></span>
+            </div>
+          </div>
+
+          <div class="event-footer">
+            <div class="attendees">
+              <div class="attendee-avatars">
+                <img src="https://i.pravatar.cc/150?img=1" alt="Attendee" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=2" alt="Attendee" class="avatar">
+                <img src="https://i.pravatar.cc/150?img=3" alt="Attendee" class="avatar">
+              </div>
+              <span class="more-attendees">+${event.attendees} going</span>
+            </div>
+            <button class="btn-see-more" onclick="openModal(${event.id})">See More</button>
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    // Format date
+    function formatDate(date) {
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    // Open modal with event details
+    function openModal(eventId) {
+      const event = eventsData.find(e => e.id === eventId);
+      if (!event) return;
+
+      const modal = document.getElementById('event-modal');
+      document.getElementById('modal-image').src = event.image;
+      document.getElementById('modal-title').textContent = event.title;
+      document.getElementById('modal-date').textContent = formatDate(new Date(event.date));
+      document.getElementById('modal-time').textContent = event.time;
+      document.getElementById('modal-location').textContent = event.location;
+      document.getElementById('modal-description').textContent = event.description;
+
+      // Populate expectations
+      const expectationsList = document.getElementById('modal-expectations');
+      expectationsList.innerHTML = '';
+      event.expectations.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        expectationsList.appendChild(li);
+      });
+
+      // Populate requirements
+      const requirementsList = document.getElementById('modal-requirements');
+      requirementsList.innerHTML = '';
+      event.requirements.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        requirementsList.appendChild(li);
+      });
+
+      // Start countdown in modal
+      startModalCountdown(event.date, event.time);
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModal() {
+      const modal = document.getElementById('event-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('event-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Countdown timer for featured event
+    function startFeaturedCountdown() {
+      const eventDate = new Date('2025-01-15 18:00:00');
+      
+      setInterval(() => {
+        const now = new Date();
+        const timeLeft = eventDate - now;
+
+        if (timeLeft > 0) {
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+          document.getElementById('days').textContent = String(days).padStart(2, '0');
+          document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+          document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+          document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        } else {
+          document.getElementById('featured-countdown').innerHTML = '<p style="text-align: center; font-size: 1.2rem; font-weight: 700;">Event is Live!</p>';
+        }
+      }, 1000);
+    }
+
+    // Countdown timer for modal
+    function startModalCountdown(date, time) {
+      const eventDate = new Date(date + ' ' + time);
+      
+      const interval = setInterval(() => {
+        const now = new Date();
+        const timeLeft = eventDate - now;
+
+        if (timeLeft > 0) {
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+          document.getElementById('modal-days').textContent = String(days).padStart(2, '0');
+          document.getElementById('modal-hours').textContent = String(hours).padStart(2, '0');
+          document.getElementById('modal-minutes').textContent = String(minutes).padStart(2, '0');
+          document.getElementById('modal-seconds').textContent = String(seconds).padStart(2, '0');
+        } else {
+          document.getElementById('modal-countdown').innerHTML = '<p style="text-align: center; font-size: 1.2rem; font-weight: 700; color: #4caf50;">Event is Live!</p>';
+          clearInterval(interval);
+        }
+      }, 1000);
+    }
+
+    // Tab filtering
+    const tabs = document.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        tabs.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        
+        const tabName = this.textContent.toLowerCase();
+        filterEvents(tabName);
+      });
+    });
+
+    function filterEvents(filter) {
+      const grid = document.getElementById('events-grid');
+      grid.innerHTML = '';
+
+      let filteredEvents = eventsData;
+
+      if (filter.includes('volunteer')) {
+        filteredEvents = eventsData.filter(e => e.type === 'volunteer');
+      } else if (filter.includes('fundraiser')) {
+        filteredEvents = eventsData.filter(e => e.type === 'fundraiser');
+      } else if (filter.includes('workshop')) {
+        filteredEvents = eventsData.filter(e => e.type === 'workshop');
+      }
+
+      filteredEvents.forEach(event => {
+        const eventDate = new Date(event.date + ' ' + event.time);
+        const card = createEventCard(event, eventDate);
+        grid.appendChild(card);
+      });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      loadEvents();
+      startFeaturedCountdown();
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Pagination functionality
+    const pageButtons = document.querySelectorAll('.page-btn');
+    pageButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.textContent === '←' || this.textContent === '→') return;
+        
+        pageButtons.forEach(b => {
+          if (b.textContent !== '←' && b.textContent !== '→') {
+            b.classList.remove('active');
+          }
+        });
+        this.classList.add('active');
+        
+        // Scroll to top
+        window.scrollTo({ top: 300, behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
